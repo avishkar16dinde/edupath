@@ -1,0 +1,763 @@
+/* =========================================================
+   Interactive Developer Roadmap & Drawer Styling
+   ========================================================= */
+
+@import "@xyflow/react/dist/style.css";
+
+/* =========================================================
+   ROADMAP TOOLBAR
+   ========================================================= */
+
+.roadmap-toolbar-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: #ffffff;
+  border: 1px solid #dce5ed;
+  border-radius: 16px;
+  padding: 14px 18px;
+  box-shadow: 0 4px 16px rgba(16, 35, 63, 0.04);
+  margin-bottom: 16px;
+}
+
+.roadmap-toolbar-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.roadmap-filter-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.filter-label {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #64748b;
+  font-family: "DM Mono", monospace;
+  margin-right: 4px;
+}
+
+.roadmap-filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 9999px;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  color: #334155;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.roadmap-filter-chip:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+.roadmap-filter-chip.active {
+  background: #0f172a;
+  color: #ffffff;
+  border-color: #0f172a;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.15);
+}
+
+.roadmap-filter-chip.education.active {
+  background: #2563eb;
+  border-color: #2563eb;
+  color: #ffffff;
+}
+
+.roadmap-filter-chip.career.active {
+  background: #059669;
+  border-color: #059669;
+  color: #ffffff;
+}
+
+.roadmap-filter-chip.exploration.active {
+  background: #d97706;
+  border-color: #d97706;
+  color: #ffffff;
+}
+
+.roadmap-filter-chip.certification.active {
+  background: #7c3aed;
+  border-color: #7c3aed;
+  color: #ffffff;
+}
+
+.filter-count {
+  font-size: 11px;
+  padding: 1px 6px;
+  border-radius: 9999px;
+  background: rgba(0, 0, 0, 0.08);
+  font-weight: 600;
+}
+
+.roadmap-filter-chip.active .filter-count {
+  background: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+}
+
+.roadmap-controls-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.roadmap-select-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #475569;
+}
+
+.roadmap-select {
+  padding: 6px 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 13px;
+  background: #ffffff;
+  color: #1e293b;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+
+.roadmap-select:focus {
+  border-color: #2563eb;
+}
+
+.roadmap-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.roadmap-btn.primary {
+  background: #2563eb;
+  color: #ffffff;
+  border-color: #2563eb;
+}
+
+.roadmap-btn.primary:hover:not(:disabled) {
+  background: #1d4ed8;
+  border-color: #1d4ed8;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
+}
+
+.roadmap-btn.secondary {
+  background: #ffffff;
+  color: #334155;
+  border-color: #cbd5e1;
+}
+
+.roadmap-btn.secondary:hover:not(:disabled) {
+  background: #f8fafc;
+  border-color: #94a3b8;
+}
+
+.roadmap-btn.view-toggle {
+  background: #f1f5f9;
+  color: #475569;
+  border-color: #e2e8f0;
+}
+
+.roadmap-btn.view-toggle.active {
+  background: #0f172a;
+  color: #ffffff;
+  border-color: #0f172a;
+}
+
+.roadmap-selection-badge {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  border: 1px solid #bfdbfe;
+}
+
+.roadmap-clear-btn {
+  background: none;
+  border: none;
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 4px 6px;
+}
+
+.roadmap-clear-btn:hover {
+  color: #0f172a;
+}
+
+/* =========================================================
+   ROADMAP CANVAS & REACT FLOW
+   ========================================================= */
+
+.roadmap-canvas-wrapper {
+  position: relative;
+  width: 100%;
+  height: 680px;
+  min-height: 540px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(15, 23, 42, 0.04);
+}
+
+.react-flow__renderer {
+  border-radius: 20px;
+}
+
+.react-flow__handle {
+  width: 10px;
+  height: 10px;
+  background: #3b82f6;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+.react-flow__handle:hover {
+  transform: scale(1.3);
+  background: #1d4ed8;
+}
+
+/* React Flow Edge Styles */
+.react-flow__edge-path {
+  stroke: #94a3b8;
+  stroke-width: 2.2px;
+  transition: stroke 0.2s ease, stroke-width 0.2s ease;
+}
+
+.react-flow__edge.selected .react-flow__edge-path,
+.react-flow__edge:hover .react-flow__edge-path {
+  stroke: #2563eb;
+  stroke-width: 3px;
+}
+
+.edge-condition-label {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid #cbd5e1;
+  color: #475569;
+  font-family: "DM Mono", monospace;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* =========================================================
+   CUSTOM ROADMAP NODE CARDS
+   ========================================================= */
+
+.roadmap-node-card {
+  width: 270px;
+  background: #ffffff;
+  border: 2px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 14px;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+  position: relative;
+}
+
+.roadmap-node-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.1);
+  border-color: #94a3b8;
+}
+
+.roadmap-node-card.selected {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.25), 0 10px 24px rgba(15, 23, 42, 0.12);
+}
+
+.roadmap-node-card.marked-expansion {
+  border-color: #f59e0b;
+}
+
+.roadmap-node-card.marked-expansion::after {
+  content: "⚡ EXPANSION TARGET";
+  position: absolute;
+  top: -10px;
+  right: 12px;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  background: #f59e0b;
+  color: #ffffff;
+  padding: 2px 6px;
+  border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(245, 158, 11, 0.35);
+}
+
+.roadmap-node-card.dimmed {
+  opacity: 0.35;
+  filter: grayscale(40%);
+}
+
+.roadmap-node-card.dimmed:hover {
+  opacity: 0.85;
+  filter: none;
+}
+
+/* Category Accent Borders & Background Tints */
+.roadmap-node-card.type-education {
+  border-left: 5px solid #2563eb;
+}
+
+.roadmap-node-card.type-career {
+  border-left: 5px solid #059669;
+}
+
+.roadmap-node-card.type-exploration {
+  border-left: 5px solid #d97706;
+}
+
+.roadmap-node-card.type-certification {
+  border-left: 5px solid #7c3aed;
+}
+
+.roadmap-node-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.roadmap-type-badge {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+
+.roadmap-type-badge.education {
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+.roadmap-type-badge.career {
+  background: #ecfdf5;
+  color: #047857;
+}
+
+.roadmap-type-badge.exploration {
+  background: #fffbeb;
+  color: #b45309;
+}
+
+.roadmap-type-badge.certification {
+  background: #f5f3ff;
+  color: #6d28d9;
+}
+
+.roadmap-expand-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #64748b;
+  cursor: pointer;
+}
+
+.roadmap-expand-checkbox input {
+  cursor: pointer;
+  accent-color: #f59e0b;
+}
+
+.roadmap-node-body {
+  margin-bottom: 10px;
+}
+
+.roadmap-node-title {
+  margin: 0 0 6px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1.3;
+}
+
+.roadmap-node-desc {
+  margin: 0;
+  font-size: 12px;
+  color: #64748b;
+  line-height: 1.45;
+}
+
+.roadmap-node-footer {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding-top: 8px;
+  border-top: 1px dashed #e2e8f0;
+}
+
+.roadmap-node-metric {
+  font-size: 11px;
+  font-weight: 500;
+  color: #475569;
+  background: #f1f5f9;
+  padding: 3px 7px;
+  border-radius: 5px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* =========================================================
+   RIGHT-SIDE NODE INSPECTOR DRAWER
+   ========================================================= */
+
+.node-inspector-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(4px);
+  z-index: 1040;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.node-inspector-backdrop.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.node-inspector-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(480px, 92vw);
+  background: #ffffff;
+  box-shadow: -8px 0 36px rgba(15, 23, 42, 0.18);
+  z-index: 1050;
+  transform: translateX(100%);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+.node-inspector-drawer.open {
+  transform: translateX(0);
+}
+
+.drawer-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid #e2e8f0;
+  background: #f8fafc;
+}
+
+.drawer-title-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.drawer-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1.3;
+}
+
+.drawer-close-btn {
+  background: #e2e8f0;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: #475569;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.drawer-close-btn:hover {
+  background: #cbd5e1;
+  color: #0f172a;
+}
+
+.drawer-type-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+
+.drawer-type-badge.education {
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+.drawer-type-badge.career {
+  background: #ecfdf5;
+  color: #047857;
+}
+
+.drawer-type-badge.exploration {
+  background: #fffbeb;
+  color: #b45309;
+}
+
+.drawer-type-badge.certification {
+  background: #f5f3ff;
+  color: #6d28d9;
+}
+
+.drawer-body {
+  padding: 24px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  flex: 1;
+}
+
+.drawer-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.drawer-section-title {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #64748b;
+  font-family: "DM Mono", monospace;
+}
+
+.drawer-desc-text {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #334155;
+  white-space: pre-line;
+}
+
+.drawer-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.drawer-metric-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.drawer-metric-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #64748b;
+}
+
+.drawer-metric-value {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.drawer-chips-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.drawer-prereq-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 13px;
+  color: #1e293b;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.drawer-prereq-chip:hover {
+  background: #e2e8f0;
+  border-color: #94a3b8;
+  transform: translateY(-1px);
+}
+
+.drawer-prereq-type {
+  font-size: 10px;
+  color: #64748b;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.drawer-empty-hint {
+  margin: 0;
+  font-size: 13px;
+  color: #94a3b8;
+  font-style: italic;
+}
+
+.drawer-transitions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.drawer-transition-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 12px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.drawer-transition-item.inbound {
+  border-left: 3px solid #3b82f6;
+}
+
+.drawer-transition-item.outbound {
+  border-left: 3px solid #10b981;
+}
+
+.transition-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.transition-dir {
+  font-weight: 700;
+  color: #475569;
+  font-size: 12px;
+}
+
+.transition-title {
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.transition-type-badge {
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: #e2e8f0;
+  color: #475569;
+  font-family: "DM Mono", monospace;
+}
+
+.transition-cond {
+  font-size: 12px;
+  color: #d97706;
+  font-style: italic;
+}
+
+.drawer-footer {
+  padding: 18px 24px;
+  border-top: 1px solid #e2e8f0;
+  background: #f8fafc;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.drawer-action-btn {
+  width: 100%;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  border: 1px solid transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.drawer-action-btn.secondary {
+  background: #ffffff;
+  color: #334155;
+  border-color: #cbd5e1;
+}
+
+.drawer-action-btn.secondary:hover {
+  background: #f1f5f9;
+  border-color: #94a3b8;
+}
+
+.drawer-action-btn.secondary.selected {
+  background: #eff6ff;
+  color: #1d4ed8;
+  border-color: #3b82f6;
+}
+
+.drawer-action-btn.primary {
+  background: #2563eb;
+  color: #ffffff;
+  border-color: #2563eb;
+}
+
+.drawer-action-btn.primary:hover:not(:disabled) {
+  background: #1d4ed8;
+  border-color: #1d4ed8;
+}
